@@ -22,7 +22,7 @@
   background: var(--glass);
   border-radius: 2rem;
   gap: 16px;
-  grid-template-columns: 11rem auto 2rem;
+  grid-template-columns: 15vw auto 1vw;
   overflow: hidden;
 }
 

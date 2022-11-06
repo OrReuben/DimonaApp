@@ -8,7 +8,7 @@ import {
 import axios from "axios";
 import Card from "../Card/Card";
 import { useState } from "react";
-import Loader from "../Loader/Loader";
+import { Skeleton } from "@mui/material";
 
 const Cards = ({ api }) => {
   const [weeklyHazards, setWeeklyHazards] = useState();
@@ -122,7 +122,10 @@ const Cards = ({ api }) => {
         return (
           <div className="parentContainer" key={id}>
             {loading ? (
-              <Loader />
+              <Skeleton
+                variant="rectangular"
+                sx={{ borderRadius: 2, width: { s: 400, m: 210 }, height: 130 }}
+              />
             ) : (
               <Card
                 title={card.title}

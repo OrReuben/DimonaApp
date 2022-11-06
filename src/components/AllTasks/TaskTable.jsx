@@ -22,7 +22,9 @@ export default function TaskTable({ api }) {
     {
       field: "action",
       headerName: "פעולה",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "center",
       headerAlign: "center",
       sortable: false,
@@ -43,47 +45,55 @@ export default function TaskTable({ api }) {
     {
       field: "type",
       headerName: "סוג דיווח",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "location",
       headerName: "מיקום",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "date",
       headerName: "תאריך",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "status",
       headerName: "סטטוס",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "body",
       headerName: "סיבה",
-      width: 160,
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
   ];
-
 
   return (
     <div style={{ height: "95%", width: "100%", marginTop: 10 }}>
       {loading ? (
         <Loader />
       ) : (
-        
         <DataGrid
           loading={loading}
           getRowId={(task) => task && task._id}

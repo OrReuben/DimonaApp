@@ -3,7 +3,7 @@ import "./Updates.css";
 import moment from "moment";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Loader from "../Loader/Loader";
+import { Skeleton } from "@mui/material";
 
 const Updates = ({ api }) => {
   const [UpdatesData, setUpdatesData] = useState();
@@ -25,7 +25,83 @@ const Updates = ({ api }) => {
   return (
     <div className="Updates">
       {loading ? (
-        <Loader />
+        <div
+          style={{
+            width: "100%",
+          }}
+        >
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+              marginBottom:"15px"
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                width: "100%",
+                marginRight: "9px",
+              }}
+            >
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+            </div>
+            <div>
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+          </div>
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "column",
+                width: "100%",
+                marginRight: "9px",
+              }}
+            >
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1rem", width: "100%", height: "2vw" }}
+              />
+            </div>
+            <div>
+              <Skeleton variant="circular" width={40} height={40} />
+              <Skeleton variant="text" sx={{ fontSize: "1rem" }} />
+            </div>
+          </div>
+        </div>
       ) : (
         UpdatesData?.map((update, index) => {
           return (
@@ -56,7 +132,11 @@ const Updates = ({ api }) => {
                       {" "}
                       {update.noti} <br />
                     </span>
-                    <span>{moment(UpdatesData && UpdatesData[index].time)?.fromNow()}</span>
+                    <span>
+                      {moment(
+                        UpdatesData && UpdatesData[index].time
+                      )?.fromNow()}
+                    </span>
                   </div>
                 </div>
                 <img src={update.img} alt="profile" />

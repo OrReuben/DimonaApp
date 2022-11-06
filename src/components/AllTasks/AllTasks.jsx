@@ -3,11 +3,11 @@ import Sidebar from "../Sidebar";
 import "./AllTasks.css";
 import TaskTable from "./TaskTable";
 
-const AllTasks = ({api}) => {
+const AllTasks = ({api, setSelected, selected}) => {
   return (
     <div className="AllTasks">
       <div className="AllTasksGlass">
-      <Sidebar />
+      <Sidebar setSelected={setSelected} selected={selected}/>
       <TaskTable api={api} />
       </div>
     </div>

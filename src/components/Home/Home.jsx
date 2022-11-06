@@ -7,7 +7,7 @@ function Home({ api, setSelected, selected }) {
   return (
     <div className="Home">
       <div className="HomeGlass">
-        <Sidebar  />
+        <Sidebar setSelected={setSelected} selected={selected} />
         <MainDash api={api} />
         <RightSide api={api} />
       </div>

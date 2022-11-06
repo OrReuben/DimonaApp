@@ -7,8 +7,7 @@ import { UilBars } from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
-const Sidebar = () => {
-  const [selected, setSelected] = useState(0);
+const Sidebar = ({ setSelected, selected }) => {
   const [expanded, setExpaned] = useState(true);
   const navigate = useNavigate();
 
@@ -19,6 +18,7 @@ const Sidebar = () => {
 
   const handleClick = (index) => {
     setSelected(index);
+    // window.innerWidth <= 768 && setExpaned(false);
     index === 0
       ? navigate("/")
       : index === 1
@@ -27,7 +27,7 @@ const Sidebar = () => {
   };
   const sidebarVariants = {
     true: {
-      left: "0",
+      left: "0%",
     },
     false: {
       left: "-60%",
@@ -47,7 +47,6 @@ const Sidebar = () => {
         variants={sidebarVariants}
         animate={window.innerWidth <= 768 ? `${expanded}` : ""}
       >
-        {/* logo */}
         <div className="logo">
           <img src={Logo} alt="logo" />
           <span>

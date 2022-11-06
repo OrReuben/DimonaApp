@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./Table.css";
-import Loader from "../Loader/Loader";
+import { Skeleton } from "@mui/material";
 
 const makeStyle = (status) => {
   if (status === "בוצע") {
@@ -33,7 +33,16 @@ export default function BasicTable({ api, loading, rows }) {
     <div className="Table">
       <h3 style={{ textAlign: "right" }}>בקשות אחרונות</h3>
       {loading ? (
-        <Loader />
+        <>
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+        </>
       ) : (
         <TableContainer
           component={Paper}
