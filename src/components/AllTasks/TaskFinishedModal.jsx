@@ -17,7 +17,8 @@ export default function TasksFinishedModal({ cellValues, api }) {
   const [noti, setNoti] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  let timeCreated = moment();
+  let timeCreated = moment().format("DD-MM-YYYY");
+  
   const loggedUser = JSON.parse(localStorage.getItem("logged")).name;
   const loggedUserImg = JSON.parse(localStorage.getItem("logged")).img;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
@@ -33,7 +34,10 @@ export default function TasksFinishedModal({ cellValues, api }) {
   };
 
   const handleSubmit = async () => {
-    if (currentHazard.status === "לא בוצע" || currentHazard.status === "בביצוע") {
+    if (
+      currentHazard.status === "לא בוצע" ||
+      currentHazard.status === "בביצוע"
+    ) {
       try {
         try {
           await axios
@@ -60,7 +64,7 @@ export default function TasksFinishedModal({ cellValues, api }) {
           .delete(`${api}hazards/${currentHazard?._id}`)
           .then((res) => console.log(res.data));
       } catch {}
-    } else setError(true)
+    } else setError(true);
     handleClose();
   };
 

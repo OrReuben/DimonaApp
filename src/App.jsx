@@ -6,6 +6,7 @@ import Login from "./components/Login/Login";
 import AllUpdatesPage from "./components/AllUpdatesPage/AllUpdatesPage";
 import { useState } from "react";
 
+
 function App() {
   const api = " https://dimona-api.cyclic.app/api/";
   const user = localStorage.getItem("logged");

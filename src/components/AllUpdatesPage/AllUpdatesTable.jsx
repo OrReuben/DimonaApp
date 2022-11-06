@@ -56,7 +56,7 @@ export default function AllUpdatesTable({ api }) {
   ];
 
   return (
-    <div style={{ height: "95%", width: "100%", marginTop: 10 }}>
+    <div style={{ height: "95%", width: "100%", marginTop: 10, textAlign:"right" }}>
       {loading ? (
         <Loader />
       ) : (

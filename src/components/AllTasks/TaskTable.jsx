@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import Loader from "../Loader/Loader";
+import './TaskTable.css'
 
 export default function TaskTable({ api }) {
   const [allTasks, setAllTasks] = useState([]);
@@ -85,12 +86,12 @@ export default function TaskTable({ api }) {
       minWidth: 150,
       maxWidth: 200,
       align: "right",
-      headerAlign: "right",
+      headerAlign: "right"
     },
   ];
 
   return (
-    <div style={{ height: "95%", width: "100%", marginTop: 10 }}>
+    <div style={{ height: "95%", width: "100%", marginTop: 10, textAlign:"right" }}>
       {loading ? (
         <Loader />
       ) : (

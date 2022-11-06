@@ -134,7 +134,7 @@ const Updates = ({ api }) => {
                     </span>
                     <span>
                       {moment(
-                        UpdatesData && UpdatesData[index].time
+                        UpdatesData && UpdatesData[index].createdAt
                       )?.fromNow()}
                     </span>
                   </div>

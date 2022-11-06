@@ -51,7 +51,7 @@ const Cards = ({ api }) => {
   const hazardPercentage = (partialValue, totalValue) => {
     if (partialValue > 0) {
       if (partialValue && totalValue) {
-        return (100 * partialValue) / totalValue;
+        return Math.round((100 * partialValue) / totalValue);
       }
     } else return 0;
   };

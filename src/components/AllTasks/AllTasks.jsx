@@ -1,9 +1,13 @@
 import React from "react";
+import { useEffect } from "react";
 import Sidebar from "../Sidebar";
 import "./AllTasks.css";
 import TaskTable from "./TaskTable";
 
 const AllTasks = ({api, setSelected, selected}) => {
+  useEffect(() => {
+    setSelected(1);
+  }, [setSelected]);
   return (
     <div className="AllTasks">
       <div className="AllTasksGlass">
