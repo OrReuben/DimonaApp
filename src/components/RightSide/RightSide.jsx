@@ -3,12 +3,12 @@ import CustomerReview from "../CustomerReview/CustomerReview";
 import Updates from "../Updates/Updates";
 import "./RightSide.css";
 
-const RightSide = ({api}) => {
+const RightSide = () => {
   return (
     <div className="RightSide">
       <div>
         <h3 style={{textAlign:"center "}}>עדכונים</h3>
-        <Updates api={api}/>
+        <Updates />
       </div>
       <div>
         <h3 style={{textAlign:"center "}}>בקשות לפי זמנים</h3>

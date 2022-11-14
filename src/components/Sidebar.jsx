@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import "./Sidebar.css";
 import Logo from "../imgs/logo.png";
-import { UilSignOutAlt } from "@iconscout/react-unicons";
-import { SidebarData } from "../Data/Data";
-import { UilBars } from "@iconscout/react-unicons";
+import {
+  UilPackage,
+  UilChart,
+  UilBars,
+  UilSignOutAlt,
+  UilEstate,
+  UilClipboardAlt,
+  UilUsersAlt,
+} from "@iconscout/react-unicons";
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
@@ -18,12 +24,15 @@ const Sidebar = ({ setSelected, selected }) => {
 
   const handleClick = (index) => {
     setSelected(index);
-    // window.innerWidth <= 768 && setExpaned(false);
     index === 0
       ? navigate("/")
       : index === 1
       ? navigate("/tasks")
-      : navigate("/noti");
+      : index === 2
+      ? navigate("/noti")
+      : index === 3
+      ? navigate("/ongoing-tasks")
+      : navigate("/admin");
   };
   const sidebarVariants = {
     true: {
@@ -33,6 +42,8 @@ const Sidebar = ({ setSelected, selected }) => {
       left: "-60%",
     },
   };
+  const user = localStorage.getItem("logged");
+  const isAdmin = JSON.parse(user).isAdmin;
   return (
     <>
       <div
@@ -55,19 +66,43 @@ const Sidebar = ({ setSelected, selected }) => {
         </div>
 
         <div className="menu">
-          {SidebarData.map((item, index) => {
-            return (
-              <div
-                className={selected === index ? "menuItem active" : "menuItem"}
-                key={index}
-                onClick={() => handleClick(index)}
-              >
-                <item.icon />
-                <span>{item.heading}</span>
-              </div>
-            );
-          })}
-          {/* signoutIcon */}
+          <div
+            className={selected === 0 ? "menuItem active" : "menuItem"}
+            onClick={() => handleClick(0)}
+          >
+            <UilEstate />
+            <span>בית</span>
+          </div>
+          <div
+            className={selected === 1 ? "menuItem active" : "menuItem"}
+            onClick={() => handleClick(1)}
+          >
+            <UilClipboardAlt />
+            <span>משימות</span>
+          </div>
+          <div
+            className={selected === 3 ? "menuItem active" : "menuItem"}
+            onClick={() => handleClick(3)}
+          >
+            <UilChart />
+            <span>משימות בביצוע</span>
+          </div>
+          <div
+            className={selected === 2 ? "menuItem active" : "menuItem"}
+            onClick={() => handleClick(2)}
+          >
+            <UilUsersAlt />
+            <span>כל העדכונים</span>
+          </div>
+          {isAdmin && (
+            <div
+              className={selected === 4 ? "menuItem active" : "menuItem"}
+              onClick={() => handleClick(4)}
+            >
+              <UilPackage />
+              <span>הגדרות מנהל</span>
+            </div>
+          )}
           <div className="menuItem">
             <UilSignOutAlt onClick={handleLogout} />
           </div>

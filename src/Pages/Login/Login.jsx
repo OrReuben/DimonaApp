@@ -3,17 +3,17 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import Paper from "@mui/material/Paper";
+import Paper from "@mui/material/Paper";  
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import { useState } from "react";
+import { publicRequest } from "../../requestMethods";
 const theme = createTheme();
 
-export default function Login({ api }) {
+export default function Login() {
   const [error, setError] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -23,10 +23,10 @@ export default function Login({ api }) {
         email: data.get("email"),
         password: data.get("password"),
       };
-      await axios
-        .post(`${api}login`, newLogin)
+      await publicRequest
+        .post(`/login`, newLogin)
         .then((res) =>
-          localStorage.setItem("logged", JSON.stringify(res.data.user.others))
+          localStorage.setItem("logged", JSON.stringify(res.data.user))
         );
       setError(false);
       window.location.reload();

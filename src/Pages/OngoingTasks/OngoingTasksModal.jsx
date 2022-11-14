@@ -8,17 +8,17 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useState } from "react";
 import moment from "moment";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { userRequest } from "../../requestMethods";
 
-export default function TasksFinishedModal({ cellValues, api }) {
+export default function OngoingTasksModal({ cellValues }) {
   const [open, setOpen] = useState(false);
   const [currentHazard, setCurrentHazard] = useState(null);
   const [noti, setNoti] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
   let timeCreated = moment().format("DD-MM-YYYY");
-  
+
+  const userId = JSON.parse(localStorage.getItem("logged"))._id;
   const loggedUser = JSON.parse(localStorage.getItem("logged")).name;
   const loggedUserImg = JSON.parse(localStorage.getItem("logged")).img;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
@@ -26,7 +26,6 @@ export default function TasksFinishedModal({ cellValues, api }) {
   const handleClickOpen = () => {
     setOpen(true);
     setCurrentHazard(cellValues);
-    currentHazard?.status === "בוצע" && setError(true);
   };
 
   const handleClose = () => {
@@ -34,15 +33,13 @@ export default function TasksFinishedModal({ cellValues, api }) {
   };
 
   const handleSubmit = async () => {
-    if (
-      currentHazard.status === "לא בוצע" ||
-      currentHazard.status === "בביצוע"
-    ) {
+    if (currentHazard.status === "לא בוצע") {
       try {
         try {
-          await axios
-            .put(`${api}hazards/${currentHazard?._id}`, {
+          await userRequest
+            .put(`/hazards/${currentHazard?._id}`, {
               status: "בוצע",
+              _wid: userId,
             })
             .then((res) => console.log(res.data));
         } catch {}
@@ -55,16 +52,16 @@ export default function TasksFinishedModal({ cellValues, api }) {
           time: timeCreated,
         };
         try {
-          await axios.post(`${api}updates`, obj).then(navigate("/"));
+          await userRequest.post(`/updates/${userId}`, obj).then(navigate("/"));
         } catch {}
       } catch {}
     } else if (isAdmin === true) {
       try {
-        axios
-          .delete(`${api}hazards/${currentHazard?._id}`)
+        userRequest
+          .delete(`/hazards/${currentHazard?._id}`)
           .then((res) => console.log(res.data));
       } catch {}
-    } else setError(true);
+    }
     handleClose();
   };
 
@@ -90,28 +87,11 @@ export default function TasksFinishedModal({ cellValues, api }) {
             onChange={(e) => setNoti(e.target.value)}
           />
         </DialogContent>
-        {error && (
-          <div
-            style={{
-              textAlign: "right",
-              marginRight: 10,
-              color: "red",
-              fontWeight: 700,
-            }}
-          >
-            !המשימה כבר בוצעה
-          </div>
-        )}
+
         <DialogActions>
           <Button onClick={handleClose}>ביטול</Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={
-              noti.length === 0 ||
-              (currentHazard?.status === "בוצע" && isAdmin === false)
-            }
-          >
-            {currentHazard?.status === "בוצע" ? "מחק" : "שלח"}
+          <Button onClick={handleSubmit} disabled={noti.length === 0}>
+            שלח
           </Button>
         </DialogActions>
       </Dialog>

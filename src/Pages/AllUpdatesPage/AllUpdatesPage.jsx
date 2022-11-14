@@ -1,10 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
-import Sidebar from "../Sidebar";
+import Sidebar from "../../components/Sidebar";
 import "./AllUpdatesPage.css";
 import AllUpdatesTable from "./AllUpdatesTable";
 
-const AllUpdatesPage = ({ api, setSelected, selected }) => {
+const AllUpdatesPage = ({ setSelected, selected }) => {
   useEffect(() => {
     setSelected(2);
   }, [setSelected]);
@@ -12,7 +12,7 @@ const AllUpdatesPage = ({ api, setSelected, selected }) => {
     <div className="AllUpdatesPage">
       <div className="AllUpdatesPageGlass">
         <Sidebar setSelected={setSelected} selected={selected} />
-        <AllUpdatesTable api={api} />
+        <AllUpdatesTable />
       </div>
     </div>
   );

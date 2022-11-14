@@ -5,12 +5,12 @@ import {
   UilMoneyWithdrawal,
   UilClipboardAlt,
 } from "@iconscout/react-unicons";
-import axios from "axios";
 import Card from "../Card/Card";
 import { useState } from "react";
 import { Skeleton } from "@mui/material";
+import { userRequest } from "../../requestMethods";
 
-const Cards = ({ api }) => {
+const Cards = () => {
   const [weeklyHazards, setWeeklyHazards] = useState();
   const [doneHazards, setDoneHazards] = useState();
   const [notDoneHazards, setNotDoneHazards] = useState();
@@ -20,33 +20,33 @@ const Cards = ({ api }) => {
   useEffect(() => {
     const getWeeklyHazards = async () => {
       setLoading(true);
-      await axios
-        .get(`${api}weekly/hazards`)
+      await userRequest
+        .get(`/weekly/hazards`)
         .then((res) => setWeeklyHazards(res.data));
       setLoading(false);
     };
     const getDoneHazards = async () => {
-      await axios
-        .get(`${api}hazardsDone`)
+      await userRequest
+        .get(`/hazardsDone`)
         .then((res) => setDoneHazards(res.data));
     };
     getDoneHazards();
     const getNotDoneHazards = async () => {
-      await axios
-        .get(`${api}hazardsNotDone`)
+      await userRequest
+        .get(`/allHazardsNotDone`)
         .then((res) => setNotDoneHazards(res.data));
     };
     getDoneHazards();
     const getPendingHazards = async () => {
-      await axios
-        .get(`${api}hazardsPending`)
+      await userRequest
+        .get(`/hazardsPending`)
         .then((res) => setPendingHazards(res.data));
     };
     getWeeklyHazards();
     getDoneHazards();
     getNotDoneHazards();
     getPendingHazards();
-  }, [api]);
+  }, []);
 
   const hazardPercentage = (partialValue, totalValue) => {
     if (partialValue > 0) {

@@ -3,22 +3,33 @@ import { DataGrid } from "@mui/x-data-grid";
 import TaskFinishedModal from "./TaskFinishedModal";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
-import Loader from "../Loader/Loader";
-import './TaskTable.css'
+import Loader from "../../components/Loader/Loader";
+import "./TaskTable.css";
+import ImagesModal from "./ImagesModal";
+import { userRequest } from "../../requestMethods";
 
-export default function TaskTable({ api }) {
+export default function TaskTable() {
   const [allTasks, setAllTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const user = localStorage.getItem("logged");
+  const profession = JSON.parse(user).profession;
+  const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
 
   useEffect(() => {
     const getAllHazards = async () => {
       setLoading(true);
-      await axios.get(`${api}hazards`).then((res) => setAllTasks(res.data));
-      setLoading(false);
+      if (isAdmin) {
+        await userRequest.get(`/hazards`).then((res) => setAllTasks(res.data));
+        setLoading(false);
+      } else {
+        await userRequest
+          .get(`/hazardsNotDone/${profession}`)
+          .then((res) => setAllTasks(res.data));
+        setLoading(false);
+      }
     };
     getAllHazards();
-  }, [api]);
+  }, [profession, isAdmin]);
   const columns = [
     {
       field: "action",
@@ -34,10 +45,7 @@ export default function TaskTable({ api }) {
         return (
           <>
             <div>
-              <TaskFinishedModal
-                cellValues={cellValues && cellValues.row}
-                api={api}
-              />
+              <TaskFinishedModal cellValues={cellValues && cellValues.row} />
             </div>
           </>
         );
@@ -86,12 +94,39 @@ export default function TaskTable({ api }) {
       minWidth: 150,
       maxWidth: 200,
       align: "right",
-      headerAlign: "right"
+      headerAlign: "right",
+    },
+    {
+      field: "images",
+      headerName: "תמונות",
+      width: 100,
+      minWidth: 100,
+      maxWidth: 100,
+      align: "center",
+      headerAlign: "center",
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <ImagesModal cellValues={cellValues && cellValues.row} />
+            </div>
+          </>
+        );
+      },
     },
   ];
 
   return (
-    <div style={{ height: "95%", width: "100%", marginTop: 10, textAlign:"right" }}>
+    <div
+      style={{
+        height: "95%",
+        width: "100%",
+        marginTop: 10,
+        textAlign: "right",
+      }}
+    >
       {loading ? (
         <Loader />
       ) : (

@@ -23,14 +23,13 @@
   background: var(--glass);
   border-radius: 2rem;
   gap: 16px;
-  grid-template-columns: 15vw auto 1vw;
+  grid-template-columns: 11rem auto 1vw;
   overflow: hidden;
 }
 
 @media screen and (max-width: 1200px) {
   .AllTasksGlass {
     grid-template-columns: 10% 85% auto;
-    overflow-y: scroll;
   }
 }
 

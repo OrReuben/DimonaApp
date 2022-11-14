@@ -1,9 +1,9 @@
 import React from "react";
 import "./Updates.css";
 import moment from "moment";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { Skeleton } from "@mui/material";
+import { userRequest } from "../../requestMethods";
 
 const Updates = ({ api }) => {
   const [UpdatesData, setUpdatesData] = useState();
@@ -13,14 +13,14 @@ const Updates = ({ api }) => {
     const getUpdates = async () => {
       try {
         setLoading(true);
-        await axios
-          .get(`${api}updates`)
+        await userRequest
+          .get(`/updates`)
           .then((res) => setUpdatesData(res.data));
         setLoading(false);
       } catch {}
     };
     getUpdates();
-  }, [api]);
+  }, []);
 
   return (
     <div className="Updates">

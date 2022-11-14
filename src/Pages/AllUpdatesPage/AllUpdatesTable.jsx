@@ -2,21 +2,21 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import { useState } from "react";
 import { useEffect } from "react";
-import axios from "axios";
-import Loader from "../Loader/Loader";
+import Loader from "../../components/Loader/Loader";
+import { userRequest } from "../../requestMethods";
 
-export default function AllUpdatesTable({ api }) {
+export default function AllUpdatesTable() {
   const [allUpdates, setAllUpdates] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getAllUpdates = async () => {
       setLoading(true);
-      await axios.get(`${api}updates`).then((res) => setAllUpdates(res.data));
+      await userRequest.get(`/updates`).then((res) => setAllUpdates(res.data));
       setLoading(false);
     };
     getAllUpdates();
-  }, [api]);
+  }, []);
   const columns = [
     {
       field: "time",
