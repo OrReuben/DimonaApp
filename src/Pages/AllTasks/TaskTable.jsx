@@ -11,6 +11,7 @@ import { userRequest } from "../../requestMethods";
 export default function TaskTable() {
   const [allTasks, setAllTasks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(8);
   const user = localStorage.getItem("logged");
   const profession = JSON.parse(user).profession;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
@@ -34,9 +35,7 @@ export default function TaskTable() {
     {
       field: "action",
       headerName: "פעולה",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
+      width: 100,
       align: "center",
       headerAlign: "center",
       sortable: false,
@@ -55,19 +54,25 @@ export default function TaskTable() {
       field: "type",
       headerName: "סוג דיווח",
       width: 125,
-      minWidth: 150,
-      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "location",
       headerName: "מיקום",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
+      width: 175,
       align: "right",
       headerAlign: "right",
+      renderCell: (params) => (
+        <a
+          style={{color:"black"}}
+          target="_blank"
+          rel="noreferrer"
+          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}+דימונה`}
+        >
+          {params.value?.toString()}
+        </a>
+      ),
     },
     {
       field: "date",
@@ -82,17 +87,13 @@ export default function TaskTable() {
       field: "status",
       headerName: "סטטוס",
       width: 125,
-      minWidth: 150,
-      maxWidth: 200,
       align: "right",
       headerAlign: "right",
     },
     {
       field: "body",
       headerName: "סיבה",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
+      width: 175,
       align: "right",
       headerAlign: "right",
     },
@@ -135,8 +136,9 @@ export default function TaskTable() {
           getRowId={(task) => task && task._id}
           rows={allTasks && allTasks}
           columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[6, 8, 12, 14]}
         />
       )}
     </div>

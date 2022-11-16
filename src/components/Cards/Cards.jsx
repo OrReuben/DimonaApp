@@ -11,41 +11,23 @@ import { Skeleton } from "@mui/material";
 import { userRequest } from "../../requestMethods";
 
 const Cards = () => {
-  const [weeklyHazards, setWeeklyHazards] = useState();
-  const [doneHazards, setDoneHazards] = useState();
-  const [notDoneHazards, setNotDoneHazards] = useState();
-  const [pendingHazards, setPendingHazards] = useState();
+  const [hazards, setHazards] = useState({});
   const [loading, setLoading] = useState(false);
-
+  
   useEffect(() => {
-    const getWeeklyHazards = async () => {
+    const getCardHazards = async () => {
       setLoading(true);
-      await userRequest
-        .get(`/weekly/hazards`)
-        .then((res) => setWeeklyHazards(res.data));
+      await userRequest.get("/hazardPercentage").then((res) =>
+        setHazards({
+          weeklyHazards: res.data.weeklyHazards,
+          doneHazards: res.data.doneHazards,
+          notDoneHazards: res.data.notDoneHazards,
+          onGoingHazards: res.data.onGoingHazards,
+        })
+      );
       setLoading(false);
     };
-    const getDoneHazards = async () => {
-      await userRequest
-        .get(`/hazardsDone`)
-        .then((res) => setDoneHazards(res.data));
-    };
-    getDoneHazards();
-    const getNotDoneHazards = async () => {
-      await userRequest
-        .get(`/allHazardsNotDone`)
-        .then((res) => setNotDoneHazards(res.data));
-    };
-    getDoneHazards();
-    const getPendingHazards = async () => {
-      await userRequest
-        .get(`/hazardsPending`)
-        .then((res) => setPendingHazards(res.data));
-    };
-    getWeeklyHazards();
-    getDoneHazards();
-    getNotDoneHazards();
-    getPendingHazards();
+    getCardHazards();
   }, []);
 
   const hazardPercentage = (partialValue, totalValue) => {
@@ -64,10 +46,10 @@ const Cards = () => {
         boxShadow: "0px 10px 20px 0px #e0c6f5",
       },
       barValue: hazardPercentage(
-        notDoneHazards && notDoneHazards.length,
-        weeklyHazards && weeklyHazards.length
+        hazards.notDoneHazards && hazards.notDoneHazards,
+        hazards.weeklyHazards && hazards.weeklyHazards
       ),
-      value: notDoneHazards && notDoneHazards.length,
+      value: hazards.notDoneHazards && hazards.notDoneHazards,
       png: UilUsdSquare,
       series: [
         {
@@ -83,10 +65,10 @@ const Cards = () => {
         boxShadow: "0px 10px 20px 0px #FDC0C7",
       },
       barValue: hazardPercentage(
-        pendingHazards && pendingHazards.length,
-        weeklyHazards && weeklyHazards.length
+        hazards.onGoingHazards && hazards.onGoingHazards,
+        hazards.weeklyHazards && hazards.weeklyHazards
       ),
-      value: pendingHazards && pendingHazards.length,
+      value: hazards.onGoingHazards && hazards.onGoingHazards,
       png: UilMoneyWithdrawal,
       series: [
         {
@@ -103,10 +85,10 @@ const Cards = () => {
         boxShadow: "0px 10px 20px 0px #F9D59B",
       },
       barValue: hazardPercentage(
-        doneHazards && doneHazards.length,
-        weeklyHazards && weeklyHazards.length
+        hazards.doneHazards && hazards.doneHazards,
+        hazards.weeklyHazards && hazards.weeklyHazards
       ),
-      value: doneHazards && doneHazards.length,
+      value: hazards.doneHazards && hazards.doneHazards,
       png: UilClipboardAlt,
       series: [
         {
