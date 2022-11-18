@@ -32,6 +32,7 @@ This app is the workers app - over here you can manage your work a lot easier.
 
 ## Running the project <a name="run"></a>
 In the project directory, you can run:
+Make sure to get into react-client branch - 
 
 1.Clone the repo.
 
