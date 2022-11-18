@@ -41,12 +41,6 @@ In the project directory, you can run:
 
 4.Navigate to `http://localhost:3000`.
 
-1.Clone the server repo.
-
-2.Run `npm install`.
-
-3.run `nodemon server.js`.
-
 ## Screenshots <a name="Screenshots"></a>
 log in
 
