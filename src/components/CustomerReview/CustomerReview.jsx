@@ -1,13 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
+import { useEffect } from "react";
 import Chart from "react-apexcharts";
-
+import { userRequest } from "../../requestMethods";
+import Loader from "../../components/Loader/Loader";
 
 const CustomerReview = () => {
+  const [requests, setRequests] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const categories = [
+    new Date(new Date() - 7 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 6 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 5 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 4 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 3 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 2 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date(new Date() - 1 * 60 * 60 * 24 * 1000).toISOString().split("T")[0],
+    new Date().toISOString().split("T")[0],
+  ];
+  useEffect(() => {
+    const getData = async () => {
+      setLoading(true);
+      setTimeout(() => {
+        userRequest
+          .get("/hazardstats")
+          .then((res) =>
+            setRequests([
+              res.data.sevenDaysAgo,
+              res.data.sixDaysAgo,
+              res.data.fiveDaysAgo,
+              res.data.fourDaysAgo,
+              res.data.threeDaysAgo,
+              res.data.twoDaysAgo,
+              res.data.oneDaysAgo,
+              res.data.today,
+            ])
+          );
+        setLoading(false);
+      }, 2500);
+    };
+    getData();
+  }, []);
+
   const data = {
     series: [
       {
         name: "בקשות חדשות",
-        data: [10, 50, 30, 90, 40, 120, 100],
+        data: requests && requests,
       },
     ],
     options: {
@@ -29,7 +68,7 @@ const CustomerReview = () => {
       },
       tooltip: {
         x: {
-          format: "dd/MM/yy HH:mm",
+          format: "dd/MM/yy",
         },
       },
       grid: {
@@ -37,27 +76,29 @@ const CustomerReview = () => {
       },
       xaxis: {
         type: "datetime",
-        categories: [
-          "2022-11-1T00:00:00.000Z",
-          "2022-11-1T01:30:00.000Z",
-          "2022-11-1T02:30:00.000Z",
-          "2022-11-1T03:30:00.000Z",
-          "2022-11-1T04:30:00.000Z",
-          "2022-11-1T05:30:00.000Z",
-          "2022-11-1T06:30:00.000Z",
-        ],
+        categories: categories,
       },
       yaxis: {
-        show: false
+        show: false,
       },
-      toolbar:{
-        show: false
-      }
+      toolbar: {
+        show: false,
+      },
     },
   };
-  return <div className="CustomerReview">
-        <Chart options={data.options} series={data.series} type="area" />
-  </div>;
+  return (
+    <div className="CustomerReview">
+      {loading ? (
+        <Loader />
+      ) : (
+        <Chart
+          options={data.options}
+          series={data && data.series}
+          type="area"
+        />
+      )}
+    </div>
+  );
 };
 
 export default CustomerReview;
