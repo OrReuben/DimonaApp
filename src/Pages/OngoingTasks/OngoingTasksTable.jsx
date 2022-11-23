@@ -5,11 +5,11 @@ import { useEffect } from "react";
 import Loader from "../../components/Loader/Loader";
 import OngoingTasksModal from "./OngoingTasksModal";
 import { userRequest } from "../../requestMethods";
+import ImagesModal from "../AllTasks/ImagesModal";
 
 export default function OngoingTasksTable() {
   const [allOngoingHazards, setAllOngoingHazards] = useState([]);
   const [loading, setLoading] = useState(false);
-
   const userId = JSON.parse(localStorage.getItem("logged"))._id;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
 
@@ -45,20 +45,14 @@ export default function OngoingTasksTable() {
         return (
           <>
             <div>
-              <OngoingTasksModal cellValues={cellValues && cellValues.row} />
+              <OngoingTasksModal
+                cellValues={cellValues && cellValues.row}
+                setLoading={setLoading}
+              />
             </div>
           </>
         );
       },
-    },
-    {
-      field: "type",
-      headerName: "סוג דיווח",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
     },
     {
       field: "location",
@@ -70,13 +64,25 @@ export default function OngoingTasksTable() {
       headerAlign: "right",
     },
     {
-      field: "date",
-      headerName: "תאריך",
+      field: "updatedAt",
+      headerName: "טופל בתאריך",
       width: 125,
       minWidth: 150,
       maxWidth: 200,
       align: "right",
       headerAlign: "right",
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <span>
+                {cellValues.row.updatedAt &&
+                  cellValues.row.updatedAt.split("T")[0]}{" "}
+              </span>
+            </div>
+          </>
+        );
+      },
     },
     {
       field: "status",
@@ -95,6 +101,26 @@ export default function OngoingTasksTable() {
       maxWidth: 200,
       align: "right",
       headerAlign: "right",
+    },
+    {
+      field: "images",
+      headerName: "תמונות",
+      width: 100,
+      minWidth: 100,
+      maxWidth: 100,
+      align: "center",
+      headerAlign: "center",
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <ImagesModal cellValues={cellValues && cellValues.row} />
+            </div>
+          </>
+        );
+      },
     },
   ];
 

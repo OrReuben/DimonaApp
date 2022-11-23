@@ -10,8 +10,11 @@ import { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { userRequest } from "../../requestMethods";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function TasksFinishedModal({ cellValues }) {
+export default function TasksFinishedModal({ cellValues, setLoading }) {
   const [open, setOpen] = useState(false);
   const [currentHazard, setCurrentHazard] = useState(null);
   const [noti, setNoti] = useState("");
@@ -22,7 +25,13 @@ export default function TasksFinishedModal({ cellValues }) {
   const loggedUser = JSON.parse(localStorage.getItem("logged")).name;
   const loggedUserImg = JSON.parse(localStorage.getItem("logged")).img;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
-
+  const toastOptions = {
+    position: "top-left",
+    autoClose: 2000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
   const handleClickOpen = () => {
     setOpen(true);
     setCurrentHazard(cellValues);
@@ -32,54 +41,89 @@ export default function TasksFinishedModal({ cellValues }) {
     setOpen(false);
   };
 
-  const handleDelete = async () => {
-    try {
-      if (isAdmin) {
-        await userRequest
-          .delete(`/hazards/${currentHazard?._id}`)
-          .then((res) => console.log(res.data));
-      }
-    } catch {}
-  };
-
   const handleOngoing = async () => {
     if (currentHazard.status === "לא בוצע") {
       try {
+        setLoading(true);
         await userRequest
           .put(`/hazards/${currentHazard?._id}`, {
             status: "בביצוע",
             _wid: userId,
           })
           .then((res) => console.log(res.data));
-      } catch {}
+        await axios.post(
+          `https://long-blue-walrus-tie.cyclic.app/api/phone/hazzardon`,
+          {
+            _uid: cellValues._uid,
+            phone: "+972" + cellValues.phone,
+            location: cellValues.location,
+          }
+        );
+        setLoading(false);
+        toast.success("הפעולה הושלמה בהצלחה", toastOptions);
+        handleClose();
+        setTimeout(() => {
+          navigate("/ongoing-tasks");
+        }, 2500);
+      } catch {
+        console.log("error");
+      }
     }
   };
 
   const handleSubmit = async () => {
-    if (currentHazard.status === "לא בוצע") {
+    if (
+      currentHazard.status === "לא בוצע" ||
+      currentHazard.status === "בביצוע"
+    ) {
+      setLoading(true);
       try {
-        try {
-          await userRequest
-            .put(`/hazards/${currentHazard?._id}`, {
-              status: "בוצע",
-              _wid: userId,
-            })
-            .then((res) => console.log(res.data));
-        } catch {}
-        const obj = {
-          img: loggedUserImg,
-          name: loggedUser,
-          problem: currentHazard && currentHazard.body,
-          where: currentHazard && currentHazard.location,
-          noti: noti,
-          time: timeCreated,
-        };
-        try {
-          await userRequest.post(`/updates/${userId}`, obj).then(navigate("/"));
-        } catch {}
+        await userRequest.put(`/hazards/${currentHazard?._id}`, {
+          status: "בוצע",
+          _wid: userId,
+        });
+        await axios.post(
+          `https://long-blue-walrus-tie.cyclic.app/api/phone/hazzardfinish`,
+          {
+            _uid: cellValues._uid,
+            phone: "+972" + cellValues.phone,
+            location: cellValues.location,
+          }
+        );
+      } catch {
+        toast.error("משהו השתבש.. נסה שוב", toastOptions);
+      }
+      const obj = {
+        img: loggedUserImg,
+        name: loggedUser,
+        problem: currentHazard && currentHazard.body,
+        where: currentHazard && currentHazard.location,
+        noti: noti,
+        time: timeCreated,
+      };
+      try {
+        await userRequest.post(`/updates/${userId}`, obj);
+        toast.success("הפעולה הושלמה בהצלחה", toastOptions);
+        setLoading(false);
+        handleClose();
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
       } catch {}
+    } else if (isAdmin && currentHazard.status === "בוצע") {
+      try {
+        userRequest
+          .delete(`/hazards/${currentHazard?._id}`)
+          .then((res) => console.log(res.data));
+        handleClose();
+        toast.success("נמחק בהצלחה מהמערכת!", toastOptions);
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
+      } catch {
+        toast.error("משהו השתבש.. נסה שוב", toastOptions);
+      }
     }
-    handleClose();
   };
 
   return (
@@ -106,24 +150,20 @@ export default function TasksFinishedModal({ cellValues }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>ביטול</Button>
-          {currentHazard?.status === "בוצע" ? (
-            <Button onClick={handleDelete}>מחק</Button>
-          ) : currentHazard?.status === "בביצוע" ? (
-            <div>
-              <Button onClick={handleSubmit} disabled={noti.length === 0}>
-                שלח
-              </Button>
-            </div>
-          ) : (
-            <div>
+          <div>
+            {currentHazard?.status === "לא בוצע" && (
               <Button onClick={handleOngoing}>בביצוע</Button>
-              <Button onClick={handleSubmit} disabled={noti.length === 0}>
-                שלח
-              </Button>
-            </div>
-          )}
+            )}
+            <Button
+              onClick={handleSubmit}
+              disabled={currentHazard?.status !== "בוצע" && noti.length === 0}
+            >
+              {currentHazard?.status === "בוצע" ? "מחק" : "שלח"}
+            </Button>
+          </div>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

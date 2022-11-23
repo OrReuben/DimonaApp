@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import "./Table.css";
-import { Skeleton } from "@mui/material";
+import { Card, Skeleton } from "@mui/material";
 
 const makeStyle = (status) => {
   if (status === "בוצע") {
@@ -34,15 +34,21 @@ export default function BasicTable({ api, loading, rows }) {
       <h3 style={{ textAlign: "right" }}>בקשות אחרונות</h3>
       {loading ? (
         <>
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
-        <Skeleton variant="text" sx={{ fontSize: "1rem", width:"100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
+          <Skeleton variant="text" sx={{ fontSize: "1rem", width: "100%" }} />
         </>
+      ) : rows?.length === 0 ? (
+        <Card sx={{ margin: "20px 0px" }}>
+          <div style={{ textAlign: "center", padding: 10 }}>
+            אין בקשות אחרונות
+          </div>
+        </Card>
       ) : (
         <TableContainer
           component={Paper}
@@ -51,7 +57,6 @@ export default function BasicTable({ api, loading, rows }) {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="right">סוג דיווח</TableCell>
                 <TableCell align="right">מיקום</TableCell>
                 <TableCell align="right">תאריך</TableCell>
                 <TableCell align="right">סטטוס</TableCell>
@@ -66,11 +71,21 @@ export default function BasicTable({ api, loading, rows }) {
                       key={index}
                       sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                     >
-                      <TableCell align="right" component="th" scope="row">
-                        {row.type}
+                      <TableCell align="right">
+                        {row.location.split(",")[0] &&
+                        row.location.split(",")[1] ? (
+                          <span>
+                            {" "}
+                            {row.location.split(",")[0]},
+                            {row.location.split(",")[1]}
+                          </span>
+                        ) : (
+                          row.location
+                        )}
                       </TableCell>
-                      <TableCell align="right">{row.location}</TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">
+                        {row.createdAt && row.createdAt.split("T")[0]}
+                      </TableCell>
                       <TableCell align="right">
                         <span className="status" style={makeStyle(row.status)}>
                           {row.status}

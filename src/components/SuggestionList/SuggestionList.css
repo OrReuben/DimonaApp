@@ -1,0 +1,51 @@
+.suggestion-list {
+  margin: 1rem 0rem;
+}
+.suggestion-list ul {
+  list-style: none;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestion-list ul li b:nth-child(3) {
+  text-align: right;
+}
+
+.suggestion-list ul li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: aliceblue;
+  padding: 15px;
+  border-radius: 10px;
+  text-align: center;
+  margin: 10px 0px;
+  cursor: pointer;
+}
+
+.suggestion-list ul li .title {
+  overflow: hidden;
+  white-space: nowrap;
+  overflow-x: hidden;
+  width: 400px;
+  text-overflow: ellipsis;
+  direction: rtl;
+}
+@media screen and (max-width: 800px) {
+  .suggestion-list ul li b {
+    font-size: 13px;
+  }
+  .suggestion-list ul li b:nth-child(2) {
+    display: none;
+  }
+
+  .suggestion-list ul li .title {
+    width: 50vw;
+  }
+}
+@media screen and (max-width: 400px) {
+  .suggestion-list ul li b {
+    font-size: 10px;
+  }
+}

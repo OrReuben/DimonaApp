@@ -10,8 +10,11 @@ import { useState } from "react";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { userRequest } from "../../requestMethods";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function OngoingTasksModal({ cellValues }) {
+export default function OngoingTasksModal({ cellValues, setLoading }) {
   const [open, setOpen] = useState(false);
   const [currentHazard, setCurrentHazard] = useState(null);
   const [noti, setNoti] = useState("");
@@ -21,7 +24,14 @@ export default function OngoingTasksModal({ cellValues }) {
   const userId = JSON.parse(localStorage.getItem("logged"))._id;
   const loggedUser = JSON.parse(localStorage.getItem("logged")).name;
   const loggedUserImg = JSON.parse(localStorage.getItem("logged")).img;
-  const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
+
+  const toastOptions = {
+    position: "top-left",
+    autoClose: 2000,
+    pauseOnHover: true,
+    draggable: true,
+    theme: "dark",
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,33 +43,40 @@ export default function OngoingTasksModal({ cellValues }) {
   };
 
   const handleSubmit = async () => {
-    if (currentHazard.status === "לא בוצע") {
+    if (currentHazard.status === "בביצוע") {
       try {
-        try {
-          await userRequest
-            .put(`/hazards/${currentHazard?._id}`, {
-              status: "בוצע",
-              _wid: userId,
-            })
-            .then((res) => console.log(res.data));
-        } catch {}
-        const obj = {
-          img: loggedUserImg,
-          name: loggedUser,
-          problem: currentHazard && currentHazard.body,
-          where: currentHazard && currentHazard.location,
-          noti: noti,
-          time: timeCreated,
-        };
-        try {
-          await userRequest.post(`/updates/${userId}`, obj).then(navigate("/"));
-        } catch {}
-      } catch {}
-    } else if (isAdmin === true) {
-      try {
-        userRequest
-          .delete(`/hazards/${currentHazard?._id}`)
+        setLoading(true);
+        await userRequest
+          .put(`/hazards/${currentHazard?._id}`, {
+            status: "בוצע",
+            _wid: userId,
+          })
           .then((res) => console.log(res.data));
+        await axios.post(
+          `https://long-blue-walrus-tie.cyclic.app/api/phone/hazzardfinish`,
+          {
+            _uid: currentHazard._uid,
+            phone: "+972" + currentHazard.phone,
+            location: currentHazard.location,
+          }
+        );
+      } catch {}
+      const obj = {
+        img: loggedUserImg,
+        name: loggedUser,
+        problem: currentHazard && currentHazard.body,
+        where: currentHazard && currentHazard.location,
+        noti: noti,
+        time: timeCreated,
+      };
+      try {
+        await userRequest.post(`/updates/${userId}`, obj);
+        toast.success("הפעולה הושלמה בהצלחה", toastOptions);
+        setLoading(false);
+        handleClose();
+        setTimeout(() => {
+          navigate("/");
+        }, 2500);
       } catch {}
     }
     handleClose();
@@ -95,6 +112,7 @@ export default function OngoingTasksModal({ cellValues }) {
           </Button>
         </DialogActions>
       </Dialog>
+      <ToastContainer />
     </div>
   );
 }

@@ -1,6 +1,4 @@
-
-.AllTasks {
-  /* padding: 0.5rem 3.5rem; */
+.suggestions {
   color: var(--black);
   background: linear-gradient(
     106.37deg,
@@ -16,25 +14,27 @@
   font-family: "Inter", sans-serif;
 }
 
-.AllTasksGlass {
+.suggestions-glass {
   display: grid;
   height: 97%;
   width: 97%;
   background: var(--glass);
   border-radius: 2rem;
-  gap: 16px;
-  grid-template-columns: 11rem auto 1vw;
+  display: grid;
+  grid-template-rows: 5% auto 7%;
   overflow: hidden;
+  position: relative;
+}
+.suggestions-glass .suggestions-top svg {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  font-size: 40px;
+  color: black;
+  cursor:pointer
 }
 
-@media screen and (max-width: 1200px) {
-  .AllTasksGlass {
-    grid-template-columns: 10% auto;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .AllTasksGlass {
-    grid-template-columns: 1fr;
-  }
+.suggestions-center{
+    margin:1rem;
+    margin-top:2rem
 }

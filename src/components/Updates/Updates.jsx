@@ -35,7 +35,7 @@ const Updates = ({ api }) => {
               width: "100%",
               display: "flex",
               justifyContent: "flex-end",
-              marginBottom:"15px"
+              marginBottom: "15px",
             }}
           >
             <div
@@ -102,6 +102,8 @@ const Updates = ({ api }) => {
             </div>
           </div>
         </div>
+      ) : UpdatesData?.length === 0 ? (
+        <div>אין עדכונים חדשים</div>
       ) : (
         UpdatesData?.map((update, index) => {
           return (

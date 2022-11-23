@@ -35,6 +35,7 @@ const AdminPanel = ({ setSelected, selected }) => {
             <Button
               sx={{ width: "70vw", padding: 2, margin: "10px 0px" }}
               variant="contained"
+              onClick={() => navigate('/suggestions')}
             >
               כל ההצעות לייעול
             </Button>

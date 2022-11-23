@@ -1,0 +1,59 @@
+.suggestion {
+    color: var(--black);
+    background: linear-gradient(
+      106.37deg,
+      #ffe1bc 29.63%,
+      #ffcfd1 51.55%,
+      #f3c6f1 90.85%
+    );
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Inter", sans-serif;
+  }
+  
+  .suggestion-glass {
+    display: grid;
+    height: 97%;
+    width: 97%;
+    background: var(--glass);
+    border-radius: 2rem;
+    display: grid;
+    grid-template-rows: 5% auto 7%;
+    overflow: hidden;
+    position: relative;
+  }
+  .suggestion-glass .suggestion-top svg {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    font-size: 40px;
+    color: black;
+    cursor:pointer
+  }
+  .suggestion-glass .suggestion-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin:40px 40px 0px 40px;
+    overflow:hidden
+  }
+
+  .suggestion-glass .suggestion-bottom{
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+  }
+  .suggestion-bottom .icon-and-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left:30px
+
+  }
+  .suggestion-bottom .icon-and-text svg{
+    margin-right:5px
+  }

@@ -8,6 +8,8 @@ import Login from "./Pages/Login/Login";
 import AdminPanel from "./Pages/AdminPanel/AdminPanel";
 import Register from "./Pages/Register/Register";
 import OngoingTasks from "./Pages/OngoingTasks/OngoingTasks";
+import Suggestions from "./Pages/Suggestions/Suggestions";
+import Suggestion from "./Pages/Suggestions/Suggestion";
 
 function App() {
   const user = localStorage.getItem("logged");
@@ -75,6 +77,30 @@ function App() {
             element={
               user && isAdmin ? (
                 <Register />
+              ) : user ? (
+                <Home setSelected={setSelected} selected={selected} />
+              ) : (
+                <Login />
+              )
+            }
+          ></Route>
+          <Route
+            path="/suggestions"
+            element={
+              user && isAdmin ? (
+                <Suggestions />
+              ) : user ? (
+                <Home setSelected={setSelected} selected={selected} />
+              ) : (
+                <Login />
+              )
+            }
+          ></Route>
+          <Route
+            path="/suggestion"
+            element={
+              user && isAdmin ? (
+                <Suggestion />
               ) : user ? (
                 <Home setSelected={setSelected} selected={selected} />
               ) : (

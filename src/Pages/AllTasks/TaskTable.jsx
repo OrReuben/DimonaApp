@@ -44,18 +44,14 @@ export default function TaskTable() {
         return (
           <>
             <div>
-              <TaskFinishedModal cellValues={cellValues && cellValues.row} />
+              <TaskFinishedModal
+                cellValues={cellValues && cellValues.row}
+                setLoading={setLoading}
+              />
             </div>
           </>
         );
       },
-    },
-    {
-      field: "type",
-      headerName: "סוג דיווח",
-      width: 125,
-      align: "right",
-      headerAlign: "right",
     },
     {
       field: "location",
@@ -65,23 +61,37 @@ export default function TaskTable() {
       headerAlign: "right",
       renderCell: (params) => (
         <a
-          style={{color:"black"}}
+          style={{ color: "black" }}
           target="_blank"
           rel="noreferrer"
-          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}+דימונה`}
+          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
         >
-          {params.value?.toString()}
+          {params.value.split(",")[0] && params.value.split(",")[1]
+            ? `${params.value.split(",")[0]}, ${params.value.split(",")[1]}`
+            : params.value?.toString()}
         </a>
       ),
     },
     {
-      field: "date",
+      field: "createdAt",
       headerName: "תאריך",
       width: 125,
       minWidth: 150,
       maxWidth: 200,
       align: "right",
       headerAlign: "right",
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <span>
+                {cellValues.row.createdAt &&
+                  cellValues.row.createdAt.split("T")[0]}
+              </span>
+            </div>
+          </>
+        );
+      },
     },
     {
       field: "status",
@@ -123,7 +133,7 @@ export default function TaskTable() {
     <div
       style={{
         height: "95%",
-        width: "100%",
+        width: "98%",
         marginTop: 10,
         textAlign: "right",
       }}
@@ -139,6 +149,8 @@ export default function TaskTable() {
           pageSize={pageSize}
           onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
           rowsPerPageOptions={[6, 8, 12, 14]}
+          density="comfortable"
+          disableSelectionOnClick
         />
       )}
     </div>

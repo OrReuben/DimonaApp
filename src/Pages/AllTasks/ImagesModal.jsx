@@ -23,16 +23,38 @@ export default function ImagesModal({ cellValues }) {
   return (
     <div>
       <i onClick={handleClickOpen}>
-        <ImageIcon style={{ cursor: "pointer" }} />
+        {!cellValues.img?.length > 0 ? (
+          <ImageIcon style={{ cursor: "pointer" }} />
+        ) : (
+          <ImageIcon style={{ cursor: "pointer", color: "red" }} />
+        )}
       </i>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={{ textAlign: "center" }}>תמונות</DialogTitle>
         <DialogContent>
-          {currentImages?.map((image, index) => (
-            <Card key={index} sx={{margin:'10px 0px'}}>
-              <CardMedia component="img" height="300" width="500" src={image} />
+          {currentImages?.length > 0 ? (
+            currentImages?.map((image, index) => (
+              <Card key={index} sx={{ margin: "10px 0px" }}>
+                <CardMedia
+                  component="img"
+                  height="300"
+                  width="500"
+                  src={image}
+                />
+              </Card>
+            ))
+          ) : (
+            <Card sx={{ margin: "10px 0px" }}>
+              <CardMedia
+                component="img"
+                height="300"
+                width="500"
+                src={
+                  "https://st4.depositphotos.com/14953852/24787/v/600/depositphotos_247872612-stock-illustration-no-image-available-icon-vector.jpg"
+                }
+              />
             </Card>
-          ))}
+          )}
         </DialogContent>
       </Dialog>
     </div>
