@@ -17,16 +17,16 @@ export default function SuggestionCard({ suggestion }) {
       <div style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
       <CardMedia
         component="img"
-        sx={{width:"300px", height:"200px"}}
+        sx={{width:"300px", height:"200px", objectFit:"contain"}}
         image={
-          suggestion.img
-            ? suggestion.img
+          suggestion.picture
+            ? suggestion.picture
             : "https://adom-it.co.il/wp-content/uploads/2020/01/placeholder.png"
         }
         alt="Paella dish"
       />
       </div>
-      <CardContent sx={{overflowY:"scroll", height:300}}>
+      <CardContent sx={{overflowY:"scroll", height:120}}>
         <Typography variant="body2" color="text.secondary">
           {suggestion.body}
         </Typography>

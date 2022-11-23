@@ -27,13 +27,13 @@ const Suggestion = () => {
           <a href={`tel:+972${suggestion.phone}`}>
             {" "}
             <div className="icon-and-text">
-              <LocalPhoneIcon /> +972 {suggestion.phone}
+              <LocalPhoneIcon /> <span>+972 {suggestion.phone}</span>
             </div>
           </a>
           <a href={`mailto:${suggestion.email}`}>
             {" "}
             <div className="icon-and-text">
-              <AttachEmailIcon /> {suggestion.email}
+              <AttachEmailIcon /> <span>{suggestion.email}</span>
             </div>{" "}
           </a>
           <b style={{ marginLeft: 10 }}> :צור קשר</b>
