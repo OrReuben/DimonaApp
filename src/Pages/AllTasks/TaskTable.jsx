@@ -33,6 +33,79 @@ export default function TaskTable() {
   }, [profession, isAdmin]);
   const columns = [
     {
+      field: "images",
+      headerName: "תמונות",
+      width: 100,
+      minWidth: 100,
+      maxWidth: 100,
+      align: "center",
+      headerAlign: "center",
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <ImagesModal cellValues={cellValues && cellValues.row} />
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "body",
+      headerName: "סיבה",
+      width: 200,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "status",
+      headerName: "סטטוס",
+      width: 125,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "createdAt",
+      headerName: "תאריך",
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
+      align: "left",
+      headerAlign: "left",
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <span>
+                {cellValues.row.createdAt &&
+                  cellValues.row.createdAt.split("T")[0]}
+              </span>
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "location",
+      headerName: "מיקום",
+      width: 200,
+      align: "left",
+      renderCell: (params) => (
+        <a
+        style={{ color: "black", textAlign:"right" }}
+        target="_blank"
+        rel="noreferrer"
+        href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
+        >
+          {params.value.split(",")[0] && params.value.split(",")[1]
+            ? `${params.value.split(",")[0].replace('"', " ")}, ${params.value.split(",")[1].replace('"', " ")}`
+            : params.value.replace('"', " ")}
+        </a>
+      ),
+    },
+    {
       field: "action",
       headerName: "פעולה",
       width: 100,
@@ -53,89 +126,15 @@ export default function TaskTable() {
         );
       },
     },
-    {
-      field: "location",
-      headerName: "מיקום",
-      width: 175,
-      align: "right",
-      headerAlign: "right",
-      renderCell: (params) => (
-        <a
-          style={{ color: "black" }}
-          target="_blank"
-          rel="noreferrer"
-          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
-        >
-          {params.value.split(",")[0] && params.value.split(",")[1]
-            ? `${params.value.split(",")[0]}, ${params.value.split(",")[1]}`
-            : params.value?.toString()}
-        </a>
-      ),
-    },
-    {
-      field: "createdAt",
-      headerName: "תאריך",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
-      renderCell: (cellValues) => {
-        return (
-          <>
-            <div>
-              <span>
-                {cellValues.row.createdAt &&
-                  cellValues.row.createdAt.split("T")[0]}
-              </span>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      field: "status",
-      headerName: "סטטוס",
-      width: 125,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "body",
-      headerName: "סיבה",
-      width: 175,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "images",
-      headerName: "תמונות",
-      width: 100,
-      minWidth: 100,
-      maxWidth: 100,
-      align: "center",
-      headerAlign: "center",
-      sortable: false,
-      disableColumnMenu: true,
-      renderCell: (cellValues) => {
-        return (
-          <>
-            <div>
-              <ImagesModal cellValues={cellValues && cellValues.row} />
-            </div>
-          </>
-        );
-      },
-    },
   ];
-
+  
   return (
     <div
       style={{
         height: "95%",
         width: "98%",
         marginTop: 10,
-        textAlign: "right",
+        textAlign: "left",
       }}
     >
       {loading ? (

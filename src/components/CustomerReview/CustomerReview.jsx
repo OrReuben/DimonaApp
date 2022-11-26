@@ -37,7 +37,7 @@ const CustomerReview = () => {
             ])
           );
         setLoading(false);
-      }, 2500);
+      }, 1000);
     };
     getData();
   }, []);
@@ -46,7 +46,7 @@ const CustomerReview = () => {
     series: [
       {
         name: "בקשות חדשות",
-        data: requests && requests,
+        data: requests ? requests : [],
       },
     ],
     options: {

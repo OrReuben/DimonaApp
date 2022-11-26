@@ -13,6 +13,10 @@ import { userRequest } from "../../requestMethods";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import { CacheProvider } from "@emotion/react";
+import rtlPlugin from "stylis-plugin-rtl";
 
 export default function OngoingTasksModal({ cellValues, setLoading }) {
   const [open, setOpen] = useState(false);
@@ -24,6 +28,11 @@ export default function OngoingTasksModal({ cellValues, setLoading }) {
   const userId = JSON.parse(localStorage.getItem("logged"))._id;
   const loggedUser = JSON.parse(localStorage.getItem("logged")).name;
   const loggedUserImg = JSON.parse(localStorage.getItem("logged")).img;
+
+  const cacheRtl = createCache({
+    key: "muirtl",
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
 
   const toastOptions = {
     position: "top-left",
@@ -84,35 +93,41 @@ export default function OngoingTasksModal({ cellValues, setLoading }) {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        בוצע
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle sx={{ textAlign: "right" }}>טופס מילוי משימה</DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ textAlign: "right" }}>
-            :בבקשה תמלאו פה את הפרטים הבאים על מנת להמשיך
-          </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="פירוט"
-            type="text"
-            fullWidth
-            variant="standard"
-            onChange={(e) => setNoti(e.target.value)}
-          />
-        </DialogContent>
+      <CacheProvider value={cacheRtl}>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          בוצע
+        </Button>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle sx={{ textAlign: "right" }}>
+            טופס מילוי משימה
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ textAlign: "right" }}>
+              :בבקשה תמלאו פה את הפרטים הבאים על מנת להמשיך
+            </DialogContentText>
+            <div dir="rtl">
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="פירוט"
+              type="text"
+              fullWidth
+              variant="standard"
+              onChange={(e) => setNoti(e.target.value)}
+            />
+            </div>
+          </DialogContent>
 
-        <DialogActions>
-          <Button onClick={handleClose}>ביטול</Button>
-          <Button onClick={handleSubmit} disabled={noti.length === 0}>
-            שלח
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <ToastContainer />
+          <DialogActions>
+            <Button onClick={handleClose}>ביטול</Button>
+            <Button onClick={handleSubmit} disabled={noti.length === 0}>
+              שלח
+            </Button>
+          </DialogActions>
+        </Dialog>
+        <ToastContainer />
+      </CacheProvider>
     </div>
   );
 }

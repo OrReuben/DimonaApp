@@ -15,6 +15,11 @@ import { useNavigate } from "react-router-dom";
 import "./Register.css";
 import BasicSelect from "./Select";
 import { useEffect } from "react";
+import createCache from "@emotion/cache";
+import { prefixer } from "stylis";
+import { CacheProvider } from "@emotion/react";
+import rtlPlugin from "stylis-plugin-rtl";
+
 const theme = createTheme();
 
 export default function Register() {
@@ -63,99 +68,108 @@ export default function Register() {
     } catch {}
   };
 
+  // Create rtl cache
+  const cacheRtl = createCache({
+    key: "muirtl",
+    stylisPlugins: [prefixer, rtlPlugin],
+  });
+
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid item xs={12} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              הרשמה
-            </Typography>
+      <CacheProvider value={cacheRtl}>
+        <Grid container component="main" sx={{ height: "100vh" }}>
+          <CssBaseline />
+          <Grid item xs={12} component={Paper} elevation={6} square>
             <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit}
-              sx={{ mt: 1 }}
+              sx={{
+                my: 8,
+                mx: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="אימייל"
-                name="email"
-                autoComplete="email"
-                autoFocus
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="name"
-                label="שם פרטי"
-                name="name"
-              />
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="סיסמא"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-              />
-              <BasicSelect
-                setProfession={setProfession}
-                profession={profession}
-              />
-              <Box className="file-style">
-                <input
-                  type="file"
-                  id="files"
-                  style={{ display: "none" }}
-                  onChange={(e) => setImg(e.target.files[0])}
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                הרשמה
+              </Typography>
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit}
+                sx={{ mt: 1 }}
+                dir="rtl"
+              >
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="email"
+                  label="אימייל"
+                  name="email"
+                  autoComplete="email"
+                  autoFocus
                 />
-                <label htmlFor="files" className="file-label">
-                  בחר תמונה לעובד
-                </label>
-              </Box>
-              <Box sx={{ display: "flex" }}>
-                <Button
-                  disabled={loading}
-                  type="submit"
+                <TextField
+                  margin="normal"
+                  required
                   fullWidth
-                  variant="contained"
-                  sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                >
-                  הרשמה
-                </Button>
-                <Button
+                  id="name"
+                  label="שם פרטי"
+                  name="name"
+                />
+                <TextField
+                  margin="normal"
+                  required
                   fullWidth
-                  variant="outlined"
-                  color="error"
-                  sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
-                  onClick={() => navigate("/admin")}
-                >
-                  חזור
-                </Button>
+                  name="password"
+                  label="סיסמא"
+                  type="password"
+                  id="password"
+                  autoComplete="current-password"
+                />
+                <BasicSelect
+                  setProfession={setProfession}
+                  profession={profession}
+                />
+                <Box className="file-style">
+                  <input
+                    type="file"
+                    id="files"
+                    style={{ display: "none" }}
+                    onChange={(e) => setImg(e.target.files[0])}
+                  />
+                  <label htmlFor="files" className="file-label">
+                    בחר תמונה לעובד
+                  </label>
+                </Box>
+                <Box sx={{ display: "flex" }}>
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    color="error"
+                    sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
+                    onClick={() => navigate("/admin")}
+                  >
+                    חזור
+                  </Button>
+                  <Button
+                    disabled={loading}
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2, mr: 2, ml: 2 }}
+                  >
+                    הרשמה
+                  </Button>
+                </Box>
               </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
+      </CacheProvider>
     </ThemeProvider>
   );
 }

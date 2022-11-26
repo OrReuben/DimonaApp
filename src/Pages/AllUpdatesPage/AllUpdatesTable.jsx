@@ -19,44 +19,63 @@ export default function AllUpdatesTable() {
   }, []);
   const columns = [
     {
-      field: "time",
-      headerName: "תאריך סיום",
-      width: 200,
-      align: "right",
-      headerAlign: "right",
+      field: "name",
+      headerName: "שם",
+      width: 160,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "problem",
+      headerName: "בעיה",
+      width: 175,
+      align: "left",
+      headerAlign: "left",
+    },
+    {
+      field: "where",
+      headerName: "מיקום",
+      width: 175,
+      align: "left",
+      headerAlign: "left",
+      renderCell: (params) => (
+        <a
+          style={{ color: "black", textAlign: "right" }}
+          target="_blank"
+          rel="noreferrer"
+          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
+        >
+          {params.value.split(",")[0] && params.value.split(",")[1]
+            ? `${params.value.split(",")[0].replace('"', " ")}, ${params.value.split(",")[1].replace('"', " ")}`
+            : params.value.replace('"', " ")}
+        </a>
+      ),
     },
     {
       field: "noti",
       headerName: "הודעה",
       width: 250,
-      align: "right",
-      headerAlign: "right",
+      align: "left",
+      headerAlign: "left",
     },
     {
-      field: "where",
-      headerName: "מיקום",
-      width: 160,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "problem",
-      headerName: "בעיה",
-      width: 160,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "name",
-      headerName: "שם",
-      width: 160,
-      align: "right",
-      headerAlign: "right",
+      field: "time",
+      headerName: "תאריך סיום",
+      width: 200,
+      align: "left",
+      headerAlign: "left",
     },
   ];
 
   return (
-    <div style={{ height: "95%", width: "100%", marginTop: 10, textAlign:"right" }}>
+    <div
+      style={{
+        height: "95%",
+        width: "100%",
+        marginTop: 10,
+        textAlign: "left",
+      }}
+    >
       {loading ? (
         <Loader />
       ) : (

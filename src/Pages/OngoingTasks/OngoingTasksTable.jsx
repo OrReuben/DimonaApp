@@ -12,6 +12,7 @@ export default function OngoingTasksTable() {
   const [loading, setLoading] = useState(false);
   const userId = JSON.parse(localStorage.getItem("logged"))._id;
   const isAdmin = JSON.parse(localStorage.getItem("logged")).isAdmin;
+  const [pageSize, setPageSize] = useState(8);
 
   useEffect(() => {
     const getAllOngoingHazards = async () => {
@@ -31,6 +32,81 @@ export default function OngoingTasksTable() {
     getAllOngoingHazards();
   }, [userId, isAdmin]);
   const columns = [
+    {
+      field: "images",
+      headerName: "תמונות",
+      width: 100,
+      minWidth: 100,
+      maxWidth: 100,
+      align: "center",
+      headerAlign: "center",
+
+      sortable: false,
+      disableColumnMenu: true,
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <ImagesModal cellValues={cellValues && cellValues.row} />
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "body",
+      headerName: "סיבה",
+      width: 200,
+      align: "left",
+    },
+    {
+      field: "status",
+      headerName: "סטטוס",
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
+      align: "left",
+    },
+    {
+      field: "updatedAt",
+      headerName: "טופל בתאריך",
+      width: 125,
+      minWidth: 150,
+      maxWidth: 200,
+      align: "left",
+      renderCell: (cellValues) => {
+        return (
+          <>
+            <div>
+              <span>
+                {cellValues.row.updatedAt &&
+                  cellValues.row.updatedAt.split("T")[0]}{" "}
+              </span>
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "location",
+      headerName: "מיקום",
+      width: 175,
+      align: "left",
+      renderCell: (params) => (
+        <a
+          style={{ color: "black", textAlign: "right" }}
+          target="_blank"
+          rel="noreferrer"
+          href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
+        >
+          {params.value.split(",")[0] && params.value.split(",")[1]
+            ? `${params.value.split(",")[0].replace('"', " ")}, ${params.value
+                .split(",")[1]
+                .replace('"', " ")}`
+            : params.value.replace('"', " ")}
+        </a>
+      ),
+    },
     {
       field: "action",
       headerName: "פעולה",
@@ -54,83 +130,14 @@ export default function OngoingTasksTable() {
         );
       },
     },
-    {
-      field: "location",
-      headerName: "מיקום",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "updatedAt",
-      headerName: "טופל בתאריך",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
-      renderCell: (cellValues) => {
-        return (
-          <>
-            <div>
-              <span>
-                {cellValues.row.updatedAt &&
-                  cellValues.row.updatedAt.split("T")[0]}{" "}
-              </span>
-            </div>
-          </>
-        );
-      },
-    },
-    {
-      field: "status",
-      headerName: "סטטוס",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "body",
-      headerName: "סיבה",
-      width: 125,
-      minWidth: 150,
-      maxWidth: 200,
-      align: "right",
-      headerAlign: "right",
-    },
-    {
-      field: "images",
-      headerName: "תמונות",
-      width: 100,
-      minWidth: 100,
-      maxWidth: 100,
-      align: "center",
-      headerAlign: "center",
-      sortable: false,
-      disableColumnMenu: true,
-      renderCell: (cellValues) => {
-        return (
-          <>
-            <div>
-              <ImagesModal cellValues={cellValues && cellValues.row} />
-            </div>
-          </>
-        );
-      },
-    },
   ];
 
   return (
     <div
       style={{
         height: "95%",
-        width: "100%",
+        width: "98%",
         marginTop: 10,
-        textAlign: "right",
       }}
     >
       {loading ? (
@@ -141,8 +148,10 @@ export default function OngoingTasksTable() {
           getRowId={(task) => task && task._id}
           rows={allOngoingHazards && allOngoingHazards}
           columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[6, 8, 12, 14]}
+          density="comfortable"
         />
       )}
     </div>
