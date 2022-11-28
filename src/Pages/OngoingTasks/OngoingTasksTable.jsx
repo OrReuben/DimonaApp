@@ -138,6 +138,8 @@ export default function OngoingTasksTable() {
         height: "95%",
         width: "98%",
         marginTop: 10,
+        textAlign: "left",
+        direction: "rtl",
       }}
     >
       {loading ? (

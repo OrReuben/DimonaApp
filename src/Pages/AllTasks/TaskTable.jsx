@@ -135,6 +135,7 @@ export default function TaskTable() {
         width: "98%",
         marginTop: 10,
         textAlign: "left",
+        direction:"rtl"
       }}
     >
       {loading ? (

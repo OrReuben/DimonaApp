@@ -8,6 +8,7 @@ import { userRequest } from "../../requestMethods";
 export default function AllUpdatesTable() {
   const [allUpdates, setAllUpdates] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [pageSize, setPageSize] = useState(8);
 
   useEffect(() => {
     const getAllUpdates = async () => {
@@ -46,7 +47,9 @@ export default function AllUpdatesTable() {
           href={`https://www.google.com/maps/dir/?api=1&destination=${params.value}`}
         >
           {params.value.split(",")[0] && params.value.split(",")[1]
-            ? `${params.value.split(",")[0].replace('"', " ")}, ${params.value.split(",")[1].replace('"', " ")}`
+            ? `${params.value.split(",")[0].replace('"', " ")}, ${params.value
+                .split(",")[1]
+                .replace('"', " ")}`
             : params.value.replace('"', " ")}
         </a>
       ),
@@ -74,6 +77,7 @@ export default function AllUpdatesTable() {
         width: "100%",
         marginTop: 10,
         textAlign: "left",
+        direction: "rtl",
       }}
     >
       {loading ? (
@@ -84,8 +88,10 @@ export default function AllUpdatesTable() {
           getRowId={(update) => update && update._id}
           rows={allUpdates && allUpdates}
           columns={columns}
-          pageSize={8}
-          rowsPerPageOptions={[8]}
+          pageSize={pageSize}
+          onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+          rowsPerPageOptions={[6, 8, 12, 14]}
+          density="comfortable"
         />
       )}
     </div>
