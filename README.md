@@ -84,7 +84,7 @@ Product page with an ability to buy now or bid!
    
    Adminstrator Login:
    
-   Username:Or@gmail.com
+   Username:or@gmail.com
    
    Password:1234
    
