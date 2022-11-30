@@ -1,0 +1,6 @@
+.css-1e2bxag-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell{
+    white-space: normal !important;
+}
+/* .css-204u17-MuiDataGrid-main{
+    direction: rtl;
+} */

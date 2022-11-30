@@ -1,0 +1,15 @@
+.file-style{
+    margin: 10px 0px;
+    text-align: center;
+}
+.file-label{
+    background-color: gray;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    cursor: pointer;
+    color: white;
+    font-weight: 600;
+}
+  
+  
