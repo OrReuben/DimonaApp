@@ -44,23 +44,25 @@ Make sure to get into react-client branch -
 4.Navigate to `http://localhost:3000`.
 
 ## Screenshots <a name="Screenshots"></a>
-log in
+
+### Home Page
 
 ![alt text](https://i.postimg.cc/R0xrbYDW/image-1.png)
 
-Home page with a fully functioning search engine across the site
+
+### All Tasks According To Profession
 
 ![alt text](https://i.postimg.cc/qqRW3Hz5/image-2.png)
 
-Quick access categories and products
+
+### All Of The Workers Ongoing Tasks
 
 ![alt text](https://i.postimg.cc/6qmgVbZ5/image.png)
 
-All products page can be sorted by whatever you desire and with pagination
+### Admin Panel
 
 ![alt text](https://i.postimg.cc/TYBBpSGt/image2.png)
 
-Product page with an ability to buy now or bid!
 
 
 ## Technologies <a name="Technologies"></a>
