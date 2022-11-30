@@ -52,16 +52,16 @@ Make sure to get into react-client branch -
 
 ### All Tasks According To Profession
 
-![alt text](https://i.postimg.cc/qqRW3Hz5/image-2.png)
+![alt text](https://i.postimg.cc/TYBBpSGt/image2.png)
 
 
-### All Of The Workers Ongoing Tasks
+### All Of The Workers Updates
 
 ![alt text](https://i.postimg.cc/6qmgVbZ5/image.png)
 
 ### Admin Panel
 
-![alt text](https://i.postimg.cc/TYBBpSGt/image2.png)
+![alt text](https://i.postimg.cc/qqRW3Hz5/image-2.png)
 
 
 
