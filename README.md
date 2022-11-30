@@ -11,6 +11,7 @@ It is meant to be used by a municipality workers in order to make their job easi
 - [How to run](#run)
 - [Screenshots](#Screenshots)
 - [Technologies](#Technologies)
+- [Demo](#Demo)
 - [What next](#next)
 
 
@@ -77,6 +78,9 @@ Product page with an ability to buy now or bid!
    -mongoose
    -JWT
    -CryptoJS
+   
+   ## Demo <a name="Demo"></a>
+   [Dimona Workers](https://dimona-hazards.netlify.app/)
    
 ## Whats next <a name="next"></a>
 - [ ] add an option to send messages by phone and emails.
