@@ -37,11 +37,13 @@ Make sure to get into react-client branch -
 
 1.Clone the repo.
 
-2.Run `npm install`.
+2.git branch `dimona-workers-app`.
 
-3.run `npm start`
+3 `cd client`, and `npm install`
 
-4.Navigate to `http://localhost:3000`.
+4. run `npm start`
+
+5. navigate to `localhost:3000`
 
 ## Screenshots <a name="Screenshots"></a>
 
