@@ -36,7 +36,7 @@ export default function Register() {
       formData.append("upload_preset", "pg6r4kyt");
       const getImgUrl = async () => {
         setLoading(true);
-        await publicRequest
+        await axios
           .post(
             "https://api.cloudinary.com/v1_1/dmxcfpaqb/image/upload",
             formData
@@ -62,7 +62,7 @@ export default function Register() {
         img: selectedImg && selectedImg,
       };
       setLoading(true);
-      await axios
+      await publicRequest
         .post(`/register`, newRegister)
         .then((res) => console.log(res.data));
       setLoading(false);
