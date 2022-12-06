@@ -19,6 +19,7 @@ import createCache from "@emotion/cache";
 import { prefixer } from "stylis";
 import { CacheProvider } from "@emotion/react";
 import rtlPlugin from "stylis-plugin-rtl";
+import { publicRequest } from "../../requestMethods";
 
 const theme = createTheme();
 
@@ -35,7 +36,7 @@ export default function Register() {
       formData.append("upload_preset", "pg6r4kyt");
       const getImgUrl = async () => {
         setLoading(true);
-        await axios
+        await publicRequest
           .post(
             "https://api.cloudinary.com/v1_1/dmxcfpaqb/image/upload",
             formData
